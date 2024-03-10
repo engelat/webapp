@@ -42,7 +42,7 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@v2
 
-      # Nicer than using github runid, I think, will be picked up automatically by make
+      # Nicer than using github runid, I think,it will be picked up automatically by make
       - name: 'Create datestamp image tag'
         run: sudo echo "IMAGE_TAG=$(date +%d-%m-%Y.%H%M)" >> $GITHUB_ENV
 

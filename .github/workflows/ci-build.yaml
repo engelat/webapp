@@ -15,6 +15,10 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@v2
 
+        # Add the pip install command here
+      - name: 'Install Python dependencies'
+        run: pip install -r build/requirements.txt
+
       - name: 'Run linting'
         run: make lint
 

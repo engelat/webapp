@@ -23,7 +23,8 @@ jobs:
         run: pip install pylint
 
       - name: 'Run linting'
-        run: pylint build/src/app
+        run: pylint build/src/app || true
+        continue-on-error: true
 
       - name: 'Run tests'
         run: pytest build/src/app

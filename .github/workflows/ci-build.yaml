@@ -2,14 +2,9 @@ name: CI Build App
 
 on:
   push:
-    branches: [master]
+    branches: [main]
     paths:
-      - 'src/**'
-  pull_request:
-
-env:
-  IMAGE_REG: ghcr.io
-  IMAGE_REPO: benc-uk/python-demoapp
+      - 'build/src/**'
 
 jobs:
   test:
@@ -40,7 +35,7 @@ jobs:
           files: test-results.xml
 
   build:
-    name: 'Build & Push Image'
+    name: 'Build & Deploy Image'
     needs: test
     runs-on: ubuntu-latest
     steps:
@@ -54,25 +49,19 @@ jobs:
       - name: 'Docker build image'
         run: make image
 
-      # Only when pushing to default branch (e.g. master or main), then push image to registry
-      - name: 'Push to container registry'
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-        run: |
-          echo ${{ secrets.GITHUB_TOKEN }} | docker login $IMAGE_REG -u $GITHUB_ACTOR --password-stdin
-          make push
+  deploy:
+    name: 'Deploy to Droplet'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Copy Docker image to droplet'
+        run: ssh root@161.35.78.56 "docker stop webapp_container"
 
-      - name: 'Trigger AKS release pipeline'
-        if: github.ref == 'refs/heads/master'
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: 'CD Release - AKS'
-          token: ${{ secrets.GH_PAT }}
-          inputs: '{ "IMAGE_TAG": "${{ env.IMAGE_TAG }}" }'
+      -name: 'Copy Docker image to droplet'
+       run: scp webapp/build root@161.35.78.56 .
 
-      - name: 'Trigger Azure web app release pipeline'
-        if: github.ref == 'refs/heads/master'
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: 'CD Release - Webapp'
-          token: ${{ secrets.GH_PAT }}
-          inputs: '{ "IMAGE_TAG": "${{ env.IMAGE_TAG }}" }'
+      -name: 'Load Docker image on droplet'
+       run: ssh root@161.35.78.56 "docker load -i /webapp/build/image.tar"
+
+      -name: 'Restart container on droplet'
+       run: ssh root@161.35.78.56 "docker start webapp_container"

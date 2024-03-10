@@ -18,6 +18,9 @@ jobs:
        # Add the pip install command here
       - name: 'Install Python dependencies'
         run: pip install -r build/requirements.txt
+        
+      - name: 'Install pylint'
+        run: pip install pylint
 
       - name: 'Run linting'
         run: pylint build/src

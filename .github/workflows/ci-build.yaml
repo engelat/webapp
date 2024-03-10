@@ -15,15 +15,15 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@v2
 
-        # Add the pip install command here
+       # Add the pip install command here
       - name: 'Install Python dependencies'
         run: pip install -r build/requirements.txt
 
       - name: 'Run linting'
-        run: make lint
+        run: pylint build/src
 
       - name: 'Run tests'
-        run: make test-report
+        run: pytest build/src
 
   build:
     name: 'Build & Deploy Image'

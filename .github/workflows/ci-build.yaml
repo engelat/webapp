@@ -25,20 +25,6 @@ jobs:
       - name: 'Run tests'
         run: make test-report
 
-      - name: 'Upload test results'
-        uses: actions/upload-artifact@v2
-        # Disabled when running locally with the nektos/act tool
-        if: ${{ always() && !env.ACT }}
-        with:
-          name: test-results
-          path: ./test-results.xml
-
-      - name: 'Publish test results'
-        uses: EnricoMi/publish-unit-test-result-action@v1
-        if: ${{ always() && !env.ACT }}
-        with:
-          files: test-results.xml
-
   build:
     name: 'Build & Deploy Image'
     needs: test

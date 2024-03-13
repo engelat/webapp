@@ -4,7 +4,7 @@ LABEL Name="Python Flask Demo App" Version=1.4.2
 LABEL org.opencontainers.image.source = "https://github.com/benc-uk/python-demoapp"
 
 WORKDIR /app
-COPY requirements.txt .
+COPY build/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY build/src/run.py .

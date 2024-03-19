@@ -65,13 +65,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Copy Docker image to droplet'
-        run: ssh root@161.35.78.56 "docker stop webapp_container"
+        run: ssh -o StrictHostKeyChecking=no root@161.35.78.56 "docker stop webapp_container"
 
       - name: 'Copy Docker image to droplet'
         run: scp webapp/build root@161.35.78.56 .
 
       - name: 'Load Docker image on droplet'
-        run: ssh root@161.35.78.56 "docker load -i /webapp/build/image.tar"
+        run: ssh -o StrictHostKeyChecking=no root@161.35.78.56 "docker load -i /webapp/build/image.tar"
 
       - name: 'Restart container on droplet'
-        run: ssh root@161.35.78.56 "docker start webapp_container"
+        run: ssh -o StrictHostKeyChecking=no root@161.35.78.56 "docker start webapp_container"

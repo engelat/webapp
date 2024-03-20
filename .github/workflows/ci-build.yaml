@@ -65,7 +65,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'connect to droplet'
-        run: ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} root@161.35.78.56 "docker stop webapp_container"
+        run: ssh -o StrictHostKeyChecking=no -i "${{ secrets.SSH_PRIVATE_KEY }}" root@161.35.78.56 "docker stop webapp_container"
 
       - name: 'Copy Docker image to droplet'
         run: scp -i ${{ secrets.SSH_PRIVATE_KEY }} webapp/build root@161.35.78.56 .

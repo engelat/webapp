@@ -63,17 +63,8 @@ jobs:
     name: 'Deploy to Droplet'
     needs: build
     runs-on: ubuntu-latest
-    env:
-      MY_ENV_VAR: ${{ secrets.SSH_PRIVATE_KEY }}
     steps:
       - name: 'connect to droplet'
-        run: ssh -o StrictHostKeyChecking=no -i $MY_ENV_VAR root@161.35.78.56 "docker stop webapp_container"
+        run: ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY root@161.35.78.56
 
-      - name: 'Copy Docker image to droplet'
-        run: scp -i ${{ secrets.SSH_PRIVATE_KEY }} webapp/build root@161.35.78.56 .
-
-      - name: 'Load Docker image on droplet'
-        run: ssh -o StrictHostKeyChecking=no -i $MY_ENV_VAR root@161.35.78.56 "docker load -i /webapp/build/image.tar"
-
-      - name: 'Restart container on droplet'
-        run: ssh -o StrictHostKeyChecking=no -i $MY_ENV_VAR root@161.35.78.56 "docker start webapp_container"
+  

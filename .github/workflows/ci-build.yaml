@@ -64,7 +64,12 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: 'connect to droplet'
-        run: ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY root@161.35.78.56
-
+      - name: 'Set up SSH'
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          
+      - name: 'Deploy to Droplet'
+        run: |
+          ssh -o StrictHostKeyChecking=no root@161.35.78.56 echo "Deployment successful!"
   

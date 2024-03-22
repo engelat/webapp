@@ -68,8 +68,9 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          
-      - name: 'Deploy to Droplet'
+        
+      - name: 'Connect to server'
         run: |
-          ssh -o StrictHostKeyChecking=no root@161.35.78.56 echo "Deployment successful!"
-  
+          ssh -o StrictHostKeyChecking=no root@161.35.78.56 echo "login successful!"
+      - name: 'Copy Docker image to droplet'
+        run: ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} root@161.35.78.56 "docker stop webapp_container"

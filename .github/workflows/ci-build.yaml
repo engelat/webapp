@@ -44,30 +44,27 @@ jobs:
         run: |
           pylint --max-line-length=100 --disable=missing-docstring src/app || true
 
-  build:
-    name: 'Build & Deploy Image'
+  build-and-push:
+    name: 'Build & Push Docker Image'
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - name: 'Checkout'
+      - name: Checkout
         uses: actions/checkout@v2
-
-      # Nicer than using github runid, I think,it will be picked up automatically by make
-      - name: 'Create datestamp image tag'
-        run: sudo echo "IMAGE_TAG=$(date +%d-%m-%Y.%H%M)" >> $GITHUB_ENV
-
-      - name: 'Docker build image'
-        run: make image
-
-      - name: "Push to container registry"
-        run: |
-          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-          make push IMAGE_TAG="${{ github.event.release.tag_name }}"
-          make push IMAGE_TAG=latest
+  
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+  
+      - name: Build and push Docker image
         env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-
+          DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          docker buildx build \
+            --platform linux/amd64,linux/arm64 \
+            -t ghcr.io/yourusername/your-repo:${{ github.sha }} \
+            --push .
+            
   deploy:
     name: 'Deploy to Droplet'
     needs: build

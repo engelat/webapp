@@ -67,7 +67,7 @@ jobs:
             
   deploy:
     name: 'Deploy to Droplet'
-    needs: build
+    needs: build-and-push
     runs-on: ubuntu-latest
     steps:
       - name: 'Set up SSH'

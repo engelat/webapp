@@ -59,6 +59,12 @@ jobs:
       - name: 'Docker build image'
         run: make image
 
+      - name: "Push to container registry"
+        run: |
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login $IMAGE_REG -u $GITHUB_ACTOR --password-stdin
+          make push IMAGE_TAG=${{ github.event.release.tag_name }}
+          make push IMAGE_TAG=latest
+
   deploy:
     name: 'Deploy to Droplet'
     needs: build

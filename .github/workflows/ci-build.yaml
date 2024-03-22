@@ -60,10 +60,9 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
         run: |
-          cd build  # Navigate to the "build" directory
+          cd build  
           docker buildx build \
           --platform linux/amd64,linux/arm64 \
-          -f Dockerfile \ 
           -t ghcr.io/engelat/webapp:${{ github.sha }} \
           --push .
             

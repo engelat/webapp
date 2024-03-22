@@ -61,9 +61,10 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
         run: |
           docker buildx build \
-            --platform linux/amd64,linux/arm64 \
-            -t ghcr.io/yourusername/your-repo:${{ github.sha }} \
-            --push .
+          --platform linux/amd64,linux/arm64 \
+          -f build/Dockerfile \  
+          -t ghcr.io/engelat/webapp:${{ github.sha }} \
+          --push .
             
   deploy:
     name: 'Deploy to Droplet'

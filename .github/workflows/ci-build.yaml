@@ -72,5 +72,7 @@ jobs:
       - name: 'Connect to server'
         run: |
           ssh -o StrictHostKeyChecking=no root@161.35.78.56 echo "login successful!"
-      - name: 'Copy Docker image to droplet'
-        run: ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} root@161.35.78.56 "docker stop webapp_container"
+      - name: 'Stop docker on droplet'
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} root@161.35.78.56 "docker stop webapp" > output.log 2>&1
+          cat output.log

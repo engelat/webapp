@@ -60,6 +60,7 @@ jobs:
       
       - name: Build and push Docker image
         run: |
+          cd build
           docker build -t engelat/webapp:latest .
           docker push engelat/webapp:latest
             

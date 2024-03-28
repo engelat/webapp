@@ -52,6 +52,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Print current directory
+        run: pwd
+
       - name: Verify directory structure
         run: ls -l build/src/app
   

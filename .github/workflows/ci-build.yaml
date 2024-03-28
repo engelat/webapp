@@ -66,6 +66,10 @@ jobs:
 
       - name: Build and push Docker image
         run: |
+<<<<<<< HEAD
+=======
+          docker build . -f build/src/Dockerfile
+>>>>>>> 1f9e054aba28d2ef543259efd2cd815835034d14
           docker build -t engelat/webapp:latest .
           docker push engelat/webapp:latest
 

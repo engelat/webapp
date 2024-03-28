@@ -66,8 +66,7 @@ jobs:
       
       - name: Build and push Docker image
         run: |
-          cd build
-          docker system prune -a
+          docker build . -f build/src/Dockerfile
           docker build -t engelat/webapp:latest .
           docker push engelat/webapp:latest
             

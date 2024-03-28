@@ -17,7 +17,7 @@ jobs:
 
        # Add the pip install command here
       - name: 'Install Python dependencies'
-        run: pip install -r build/requirements.txt
+        run: pip install -r requirements.txt
 
       - name: 'Run tests'
         run: pytest build/src/app || true
@@ -31,7 +31,7 @@ jobs:
       - name: 'Run Flake8'
         run: |
           flake8 --max-line-length=100 --ignore=E203,E266,E501,W503 --exclude=.git,__pycache__,docs/source/conf.py,old,build,dist src/ || true
-        
+
       - name: 'Install pylint'
         run: pip install pylint
 
@@ -57,20 +57,18 @@ jobs:
 
       - name: Verify directory structure
         run: ls -l build/src/app
-  
+
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      
+
       - name: Build and push Docker image
         run: |
-          cd build
-          docker system prune -a
           docker build -t engelat/webapp:latest .
           docker push engelat/webapp:latest
-            
+
   deploy:
     name: 'Deploy to Droplet'
     needs: build-and-push
@@ -80,7 +78,7 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-        
+
       - name: 'Connect to server'
         run: |
           ssh -o StrictHostKeyChecking=no root@161.35.78.56 echo "login successful!"

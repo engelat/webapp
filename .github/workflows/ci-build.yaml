@@ -74,17 +74,16 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
-    - name: 'Set up SSH'
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-    - name: Deploy Webapp
-      run: |
-        echo "SSH key: $SSH_KEY"
-        chmod 400 $SSH_KEY
-        ssh -o StrictHostKeyChecking=no -i $SSH_KEY root@161.35.78.56 "\
-          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }} && \
-          docker pull webapp:latest && \
-          docker ps -aq | xargs -r docker stop | xargs -r docker rm && \
-          docker run -d -p 5000:5000 webapp:latest"
+      - name: 'Set up SSH'
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+  
+      - name: Deploy Webapp
+        run: |
+          chmod 400 "${{ secrets.SSH_PRIVATE_KEY }}"
+          ssh -o StrictHostKeyChecking=no -i "${{ secrets.SSH_PRIVATE_KEY }}" root@161.35.78.56 "\
+            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }} && \
+            docker pull webapp:latest && \
+            docker ps -aq | xargs -r docker stop | xargs -r docker rm && \
+            docker run -d -p 5000:5000 webapp:latest"

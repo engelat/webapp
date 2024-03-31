@@ -78,11 +78,12 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: 'Connect to server'
+  
+      - name: Deploy Webapp
         run: |
-          ssh -o StrictHostKeyChecking=no root@161.35.78.56 echo "login successful!"
-      - name: 'Stop docker on droplet'
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} root@161.35.78.56 "docker stop webapp" > output.log 2>&1
-          cat output.log
+          chmod 400 $SSH_KEY
+          ssh -o StrictHostKeyChecking=no -i $SSH_KEY root@161.35.78.56 "\
+            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }} && \
+            docker pull webapp:latest && \
+            docker ps -aq | xargs -r docker stop | xargs -r docker rm && \
+            docker run -d -p 5000:5000 webapp:latest"

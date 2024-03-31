@@ -1,6 +1,9 @@
 import os
 from app import create_app
 
+# Print the contents of the current directory
+print("Contents of the current directory:", os.listdir('.'))
+
 app = create_app()
 
 if __name__ == "__main__":

@@ -83,8 +83,13 @@ jobs:
           run: |
             eval "$(ssh-agent -s)"
             ssh-add - <<<"${{ secrets.SSH_PRIVATE_KEY }}"
-            ssh -o StrictHostKeyChecking=no -i "${{ secrets.SSH_PRIVATE_KEY }}" root@161.35.78.56 "\
+            ssh -o StrictHostKeyChecking=no root@161.35.78.56 "\
+              echo 'Logged in to Droplet successfully' && \
               docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }} && \
-              docker pull webapp:latest && \
+              echo 'Logged in to Docker Hub successfully' && \
+              docker pull engelat/webapp:latest && \
+              echo 'Pulled Docker image successfully' && \
               docker ps -aq | xargs -r docker stop | xargs -r docker rm && \
-              docker run -d -p 5000:5000 webapp:latest"
+              echo 'Stopped and removed existing containers' && \
+              docker run -d -p 5000:5000 engelat/webapp:latest && \
+              echo 'Deployed new container successfully'"

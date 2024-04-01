@@ -1,9 +1,5 @@
 import os
-# Print the contents of the current directory
-print("Contents of the current directory:", os.listdir('.'))
-from app import create_app
-
-
+from . import create_app
 
 app = create_app()
 

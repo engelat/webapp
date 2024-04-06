@@ -26,7 +26,9 @@ public IP: 161.35.78.56
 Δημιουργήθηκε ci/cd workflow, που μπορεί να βρεθεί εδώ:
 https://github.com/engelat/webapp/blob/main/.github/workflows/github-ci.yaml
 το οποίο εκτελείται όταν γίνεται push στο main branch του repository ή με manual trigger, με χρηση workflow_dispatch
+
 Αποτελείται από 3 jobs:
+
 1 test: Εκτελεί τα test και τον έλεγχο κώδικα (linting) στην εφαρμογή. Αρχικά γίνεται checkout του κώδικα από το repository. Στη συνέχεια, εγκαθίστανται τα απαραίτητα Python dependencies από το requirements.txt, εκτελούνται τα τεστ με το pytest και γίνεται ο έλεγχος του κώδικα με τα εργαλεία linting Flake8 και Pylint
 
 2 build-and-push: Το job αυτό προυποθέτει το προηγούμενο. Συνδέεται στο docker hub και κάνει push το image με tag latest

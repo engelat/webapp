@@ -1,27 +1,27 @@
-##DevOps Engineering: Πρακτικές ανάπτυξης λογισμικού και λειτουργίες πληροφορικής
+## DevOps Engineering: Πρακτικές ανάπτυξης λογισμικού και λειτουργίες πληροφορικής
 
-#Final Project
+# Final Project
 
-<u>Ημερομηνία: 06/04/2024</u>
-Όνομα: Ελένη Αθανασοπούλου
+**Ημερομηνία:** 06/04/2024
+**Όνομα:** Ελένη Αθανασοπούλου
 
-github repository του project: https://github.com/engelat/webapp
+**github repository του project:** https://github.com/engelat/webapp
 
 
 Η εφαρμογή που χρησιμοποιήθηκε είναι ένα Python Flask web application, που δίνει realtime πληροφορίες και κάνει monitor  CPU, memory, IO και process information
 https://github.com/benc-uk/python-demoapp (όπως στην ενότητα 9)
 
 
-<u>Στοιχεία deployment server:</u>
+**Στοιχεία deployment server:**
 
 digital ocean droplet
 ubuntu server
 public IP: 161.35.78.56
 
-docker hub repository: https://hub.docker.com/repository/docker/engelat/webapp/general
+**docker hub repository:** https://hub.docker.com/repository/docker/engelat/webapp/general
 
 
-<u>ci/cd</u>
+**ci/cd**
 Δημιουργήθηκε ci/cd workflow, που μπορεί να βρεθεί εδώ:
 https://github.com/engelat/webapp/blob/main/.github/workflows/github-ci.yaml
 το οποίο εκτελείται όταν γίνεται push στο main branch του repository ή με manual trigger, με χρηση workflow_dispatch

@@ -16,13 +16,16 @@ https://github.com/benc-uk/python-demoapp (όπως στην ενότητα 9)
 **Στοιχεία deployment server:**
 
 digital ocean droplet
+
 ubuntu server
+
 public IP: 161.35.78.56
+
 
 **docker hub repository:** https://hub.docker.com/repository/docker/engelat/webapp/general
 
+**ci/cd:**
 
-**ci/cd**
 Δημιουργήθηκε ci/cd workflow, που μπορεί να βρεθεί εδώ:
 https://github.com/engelat/webapp/blob/main/.github/workflows/github-ci.yaml
 το οποίο εκτελείται όταν γίνεται push στο main branch του repository ή με manual trigger, με χρηση workflow_dispatch
